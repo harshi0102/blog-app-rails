@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_18_173411) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_19_162058) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,6 +20,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_18_173411) do
     t.integer "post_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "text"
     t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
@@ -33,13 +34,26 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_18_173411) do
     t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
+  create_table "people", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.integer "age"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "posts", force: :cascade do |t|
     t.string "title"
     t.text "content"
     t.integer "author_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "comments_counter", default: 0
+    t.text "text"
+    t.integer "likes_counter", default: 0
+    t.bigint "user_id"
     t.index ["author_id"], name: "index_posts_on_author_id"
+    t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -48,6 +62,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_18_173411) do
     t.string "photo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "bio"
+    t.integer "posts_counter", default: 0
+    t.integer "posts_count", default: 0
   end
 
+  add_foreign_key "posts", "users"
 end
