@@ -86,6 +86,7 @@ To run the project, execute the following commands:
 
 - GitHub: [@harshi0102](https://github.com/harshi0102)
 - Linkedin: [@harshikagovind](https://www.linkedin.com/in/harshikagovind/)
+- Twitter: [@harshika0102me](https://twitter.com/harshika0102me)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
