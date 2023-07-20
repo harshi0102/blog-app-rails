@@ -1,3 +1,4 @@
+# In the migration file for the 'users' table
 class CreateUsers < ActiveRecord::Migration[version_number]
   def change
     create_table :users do |t|
