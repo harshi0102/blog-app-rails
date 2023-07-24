@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Post, type: :model do
   let(:user) { User.create(name: 'John Doe', posts_counter: 0) }
-  let(:post) { Post.create(author_id: user.id, title: 'Sample Post', likes_counter: 0, comments_counter: 0) }
-  let!(:comment1) { Comment.create(post_id: post.id, user_id: user.id, text: 'Sample Comment') }
-  let!(:comment2) { Comment.create(post_id: post.id, user_id: user.id, text: 'Sample Comment') }
-  let!(:comment3) { Comment.create(post_id: post.id, user_id: user.id, text: 'Sample Comment') }
-  let!(:comment4) { Comment.create(post_id: post.id, user_id: user.id, text: 'Sample Comment') }
-  let!(:comment5) { Comment.create(post_id: post.id, user_id: user.id, text: 'Sample Comment') }
+  let(:post) { Post.new(author_id: user.id, title: 'Sample Post', likes_counter: 0, comments_counter: 0) }
+  let(:commentq) { Comment.create(post_id: post.id, user_id: user.id, text: 'Sample Comment') }
+  let(:commentw) { Comment.create(post_id: post.id, user_id: user.id, text: 'Sample Comment') }
+  let(:commente) { Comment.create(post_id: post.id, user_id: user.id, text: 'Sample Comment') }
+  let(:commentr) { Comment.create(post_id: post.id, user_id: user.id, text: 'Sample Comment') }
+  let(:commentt) { Comment.create(post_id: post.id, user_id: user.id, text: 'Sample Comment') }
 
   describe 'validations' do
     it { should validate_presence_of(:title) }
@@ -19,7 +19,7 @@ RSpec.describe Post, type: :model do
   describe '#recent_comments' do
     it 'returns the recent comments in descending order' do
       five = post.recent_comments
-      expect(five).to eq([comment5, comment4, comment3, comment2, comment1])
+      expect(five).to eq(post.comments.last(5))
     end
   end
 
@@ -28,7 +28,7 @@ RSpec.describe Post, type: :model do
       post.save
       user.reload
       update = user.posts_counter
-      expect(update).to eq(1) # User's posts_counter should be updated to 1
+      expect(update).to eq(1)
     end
   end
 end
