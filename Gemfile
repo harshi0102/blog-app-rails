@@ -46,7 +46,7 @@ gem 'bootsnap', require: false
 
 # Use Sass to process CSS
 # gem "sassc-rails"
-
+gem 'rails-controller-testing'
 gem 'pg'
 
 gem 'dotenv-rails', groups: %i[development test]
