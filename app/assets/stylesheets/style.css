@@ -32,9 +32,13 @@ body {
   margin: 2rem;
 }
 
-.user-img img {
-  height: 100%;
+.user-photo {
+  height: 85px;
+  width: 108px;
+  border-radius: 50%;
+  object-fit: cover;
 }
+
 
 .about-user {
   display: flex;
