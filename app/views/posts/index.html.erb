@@ -3,14 +3,19 @@
 <section class="user-section">
   <div class="user-details">
     <div class="user-img">
-      <img src="<%= @user.photo %>">
+      <!-- Check if user has a photo attached -->
+      <% if @user.photo.attached? %>
+        <%= image_tag url_for(@user.photo.variant(resize_to_limit: [85, 85])) %>
+      <% else %>
+        <%= image_tag asset_path('photo-1508921912186-1d1a45ebb3c1.jpg'), class: 'user-photo' %>
+      <% end %>
     </div>
     <div class='about-user'>
       <p class="user-name"><%= @user.name %></p>
       <p class="number-of-posts">Number of Posts: <%= @user.posts.count %></p>
     </div>
   </div>
-
+  
   <div class="user-posts">
     <% @posts.each_with_index do |post, index| %>
       <div class="post-details">
@@ -24,7 +29,7 @@
           </div>
         </div>
 
-        <!-- Move the comment-list inside the loop for displaying posts -->
+        <!-- Show the 5 most recent comments for each post -->
         <div class='comment-list'>
           <% post.comments.order(created_at: :desc).limit(5).each do |comment| %>
             <% if comment.user.present? %>
