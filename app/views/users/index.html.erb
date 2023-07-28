@@ -2,14 +2,10 @@
 
 <section class='user-section'>
   <% @users.each do |user| %>
-    <a href="<%= user_path(user) %>" class="nav-link">
+    <a href="<%= user_path(user.id) %>" class="nav-link">
       <div class='user-home'>
         <div class='user-img'>
-          <% if user.photo.attached? %>
-            <%= image_tag user.photo %>
-          <% else %>
-            <%= image_tag 'https://unsplash.com/photos/F_-0BxGuVvo' %>
-          <% end %>
+          <img src="<%= asset_path('photo-1508921912186-1d1a45ebb3c1.jpg') %>" class="user-photo">
         </div>
         <div class='about-user'>
           <p class="user-name"><%= user.name %></p>

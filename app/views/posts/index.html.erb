@@ -26,7 +26,7 @@
 
         <!-- Move the comment-list inside the loop for displaying posts -->
         <div class='comment-list'>
-          <% post.comments.each do |comment| %>
+          <% post.comments.order(created_at: :desc).limit(5).each do |comment| %>
             <% if comment.user.present? %>
               <p><%= comment.user.name %>: <%= comment.text %></p>
             <% else %>
