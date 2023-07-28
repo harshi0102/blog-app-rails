@@ -29,9 +29,9 @@
           </div>
         </div>
 
-        <!-- Show the 5 most recent comments for each post -->
+        <!-- Show the 5 most recent comments for each post using post.recent_comments -->
         <div class='comment-list'>
-          <% post.comments.order(created_at: :desc).limit(5).each do |comment| %>
+          <% post.recent_comments.each do |comment| %>
             <% if comment.user.present? %>
               <p><%= comment.user.name %>: <%= comment.text %></p>
             <% else %>
