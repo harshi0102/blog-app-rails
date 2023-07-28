@@ -5,7 +5,11 @@
     <a href="<%= user_path(user) %>" class="nav-link">
       <div class='user-home'>
         <div class='user-img'>
-          <img src="<%= user.photo %>">
+          <% if user.photo.attached? %>
+            <%= image_tag user.photo %>
+          <% else %>
+            <%= image_tag 'https://unsplash.com/photos/F_-0BxGuVvo' %>
+          <% end %>
         </div>
         <div class='about-user'>
           <p class="user-name"><%= user.name %></p>
