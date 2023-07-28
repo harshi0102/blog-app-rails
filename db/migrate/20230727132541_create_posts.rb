@@ -6,9 +6,10 @@ class CreatePosts < ActiveRecord::Migration[7.0]
       t.text :text
       t.datetime :created_at, null: false
       t.datetime :updated_at, null: false
-      t.integer :comments_counter
-      t.integer :likes_counter
+      t.integer :comments_counter, default: 0
+      t.integer :likes_counter, default: 0
     end
+
     add_index :posts, :author_id
   end
 end

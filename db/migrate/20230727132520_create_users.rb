@@ -6,7 +6,7 @@ class CreateUsers < ActiveRecord::Migration[7.0]
       t.text :bio
       t.datetime :updated_at, null: false
       t.datetime :created_at, null: false
-      t.integer :posts_counter
+      t.integer :posts_counter,default: 0
     end
     add_index :users, :name
   end

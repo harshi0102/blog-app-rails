@@ -1,8 +1,8 @@
-<%= stylesheet_link_tag 'style'%>
+<%= stylesheet_link_tag 'style' %>
 
 <section class='user-section'>
   <% @users.each do |user| %>
-    <a href="<%= user_path(user.id) %>" class="nav-link">
+    <a href="<%= user_path(user) %>" class="nav-link">
       <div class='user-home'>
         <div class='user-img'>
           <img src="<%= user.photo %>">
