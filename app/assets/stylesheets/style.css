@@ -30,14 +30,14 @@ body {
   width: 5rem;
   height: 5rem;
   margin: 2rem;
-} 
+}
 
 .user-photo {
   height: 85px;
-  width:108px;
+  width: 108px;
   border-radius: 50%;
   object-fit: cover;
-} 
+}
 
 .about-user {
   display: flex;
@@ -164,4 +164,3 @@ a {
 .text {
   padding-top: 20px;
 }
-
