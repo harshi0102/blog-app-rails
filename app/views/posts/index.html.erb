@@ -1,4 +1,4 @@
-<%= stylesheet_link_tag 'style'%>
+<%= stylesheet_link_tag 'style' %>
 
 <section class="user-section">
   <div class="user-details">
@@ -6,35 +6,42 @@
       <img src="<%= @user.photo %>">
     </div>
     <div class='about-user'>
-        <p class="user-name"><%= @user.name %></p>
-        <p class="number-of-posts">Number of Posts: <%= @user.posts.count %></p>
+      <p class="user-name"><%= @user.name %></p>
+      <p class="number-of-posts">Number of Posts: <%= @user.posts.count %></p>
     </div>
   </div>
 
   <div class="user-posts">
-  <% @posts.each_with_index do |post, index| %>
-    <div class="post-details">
-      <h2>Post #<%= index + 1 %></h2>
-      <div class="post-content">
-        <a href="<%= post_path(post) %>">
-         <p><%= truncate(post.text, length: 50, separator: ' ') %></p>
-        </a>
-        <div class="c-l">
+    <% @posts.each_with_index do |post, index| %>
+      <div class="post-details">
+        <h2>Post #<%= index + 1 %></h2>
+        <div class="post-content">
+          <a href="<%= post_path(post) %>">
+            <p><%= truncate(post.text, length: 50, separator: ' ') %></p>
+          </a>
+          <div class="c-l">
             <p>Comments: <%= post.comments.count %>, Likes: <%= post.likes.count %></p>
+          </div>
+        </div>
+
+        <!-- Move the comment-list inside the loop for displaying posts -->
+        <div class='comment-list'>
+          <% post.comments.each do |comment| %>
+            <% if comment.user.present? %>
+              <p><%= comment.user.name %>: <%= comment.text %></p>
+            <% else %>
+              <p>Anonymous: <%= comment.text %></p>
+            <% end %>
+          <% end %>
         </div>
       </div>
-    </div>
-    <div class='comment-list'>
-          <% post.comments.each do |comment| %>
-            <p><%= comment.user.name %>: <%= comment.text %></p>
-          <% end %>
-      </div>
-  <% end %>
-</div>
+    <% end %>
+  </div>
 
+  <!-- Move the pagination button outside the loop -->
   <div class='see-button'>
-        <button class="see-all">
-          <%= link_to 'Pagination', user_posts_path(@user.id) %>
-        </button>
-      </div>
+    <button class="see-all">
+      <%= link_to 'Pagination', user_posts_path(@user.id) %>
+    </button>
+  </div>
 </section>
