@@ -14,7 +14,7 @@ class PostsController < ApplicationController
 
   def create
     author_id = 2
-    @post = Post.new(post_params.merge(author_id: author_id))
+    @post = Post.new(post_params.merge(author_id:))
     @post.comments_counter = 0
     @post.likes_counter = 0
 
