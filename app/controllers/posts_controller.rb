@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   def index
     @user = User.find(params[:user_id])
-    @posts = @user.posts
+    @posts = @user.posts.includes(:comments)
   end
 
   def show
@@ -13,14 +13,14 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
-    @post.author_id = current_user.id
+    author_id = 2
+    @post = Post.new(post_params.merge(author_id:))
     @post.comments_counter = 0
     @post.likes_counter = 0
 
     if @post.save
       flash[:success] = 'Post has been created successfully!'
-      redirect_to user_posts_path(current_user.id)
+      redirect_to user_posts_path(author_id)
     else
       render :new
     end

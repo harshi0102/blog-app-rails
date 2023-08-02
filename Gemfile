@@ -10,8 +10,8 @@ gem 'rails', '~> 7.0.5'
 gem 'will_paginate'
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
-
-# Use sqlite3 as the database for Active Record
+# Use sqlite3 as the database for Active Record:
+gem 'activesupport', '7.0.5'
 gem 'sqlite3', '~> 1.4'
 
 # Use the Puma web server [https://github.com/puma/puma]
