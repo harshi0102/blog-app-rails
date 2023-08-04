@@ -4,7 +4,7 @@ module Api
       before_action :set_post, only: %i[index create]
 
       def create
-        user = current_user 
+        user = current_user
         comment = @post.comments.build(comment_params.merge(user:))
 
         if comment.save
