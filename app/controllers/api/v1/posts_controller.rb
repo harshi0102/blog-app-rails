@@ -2,7 +2,7 @@ module Api
   module V1
     class PostsController < ApplicationController
       before_action :authenticate_user! # Devise authentication
-      load_and_authorize_resource # CanCanCan authorization
+      load_and_authorize_resource # CanCanCan 
       def index
         user = User.find(params[:user_id])
         posts = user.posts.includes(:comments)
