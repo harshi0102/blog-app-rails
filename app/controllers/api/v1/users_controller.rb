@@ -3,8 +3,6 @@ module Api
     class UsersController < ApplicationController
       skip_before_action :verify_authenticity_token, only: [:create]
       before_action :set_user, only: %i[show posts comments add_comment]
-
-
       def create
         user = User.new(user_params)
 
