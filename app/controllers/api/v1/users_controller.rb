@@ -46,18 +46,20 @@ module Api
           render_comment_creation_error
         end
       end
-     
+
       def post_comments
         user = User.find(params[:id])
         post = user.posts.find(params[:post_id])
         comments = post.comments
         render json: comments
       end
+
       private
-      
+
       def set_user
         @user = User.find(params[:id])
       end
+
       def load_user
         @user = fetch_user_by_id
       end

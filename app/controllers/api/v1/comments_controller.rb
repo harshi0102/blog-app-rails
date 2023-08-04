@@ -1,11 +1,11 @@
 module Api
   module V1
     class CommentsController < ApplicationController
-      before_action :set_post, only: [:index, :create]
+      before_action :set_post, only: %i[index create]
 
       def create
         user = current_user # Assuming you have authentication in place
-        comment = @post.comments.build(comment_params.merge(user: user))
+        comment = @post.comments.build(comment_params.merge(user:))
 
         if comment.save
           render json: comment, status: :created
