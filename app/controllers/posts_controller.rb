@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   load_and_authorize_resource
-  
+
   def index
     @user = User.find(params[:user_id])
     @posts = @user.posts.includes(:comments)
@@ -31,7 +31,7 @@ class PostsController < ApplicationController
 
   def destroy
     @post = Post.find(params[:id])
-    authorize! :destroy, @post  # Check authorization using CanCanCan
+    authorize! :destroy, @post # Check authorization using CanCanCan
     @post.destroy
     redirect_to root_path, notice: 'Post was successfully deleted.'
   end

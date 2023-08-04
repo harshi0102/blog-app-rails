@@ -21,11 +21,11 @@ class CommentsController < ApplicationController
   def destroy
     @post = Post.find(params[:post_id])
     @comment = @post.comments.find(params[:id])
-    authorize! :destroy, @comment  # Check authorization using CanCanCan
+    authorize! :destroy, @comment # Check authorization using CanCanCan
     @comment.destroy
     respond_to do |format|
       format.html { redirect_to post_path(@post), notice: 'Comment was successfully deleted.' }
-      format.js   # Renders comments/destroy.js.erb
+      format.js # Renders comments/destroy.js.erb
     end
-end
+  end
 end
