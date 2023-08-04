@@ -1,41 +1,43 @@
+<div class="regcontainer">
 <h2>Sign up</h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
-      <%= f.text_field :name, autofocus: true,  placeholder: "name",autocomplete: "name" %>
+    <%= f.text_field :name, autofocus: true, placeholder: "Name", autocomplete: "name" %>
   </div>
 
   <div class="field">
-    <%= f.email_field :email, autofocus: true,  placeholder: "email",autocomplete: "email" %>
+    <%= f.email_field :email, autofocus: true, placeholder: "Email", autocomplete: "email" %>
   </div>
 
   <div class="field">
-      <%= f.text_area :bio, autofocus: true,  placeholder: "bio",autocomplete: "bio" %>
+    <%= f.text_area :bio, placeholder: "Bio", autocomplete: "bio" %>
   </div>
 
   <div class="field">
     <%= f.label :posts_counter, class: "label" %><br />
-    <%= f.number_field :posts_counter, value: 0, autofocus: true, placeholder: "posts_counter",autocomplete: "posts_counter" %>
+    <%= f.number_field :posts_counter, value: 0, placeholder: "Posts Counter", autocomplete: "posts_counter" %>
   </div>
 
   <div class="field">
-     <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password,  placeholder: "password",autocomplete: "new-password" %>
+    <% if @minimum_password_length %>
+      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+    <% end %>
+    <%= f.password_field :password, placeholder: "Password", autocomplete: "new-password" %>
   </div>
 
   <div class="field">
-    <%= f.password_field :password_confirmation,  placeholder: "confirm password",autocomplete: "new-password" %>
+    <%= f.password_field :password_confirmation, placeholder: "Confirm Password", autocomplete: "new-password" %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Sign up" %>
+    <%= f.submit "Sign up", class: "signup-button" %>
   </div>
 <% end %>
-<p class='reg'> Already have an account? </p>
+
+<p class="reg">Already have an account?</p>
 
 <%= render "devise/shared/links" %>
-<div>
+</div>

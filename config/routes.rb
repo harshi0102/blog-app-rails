@@ -1,20 +1,17 @@
 Rails.application.routes.draw do
-  devise_for :users , controllers: {
+  devise_for :users, controllers: {
     sessions: 'users/sessions',
-    registrations: 'users/registrations',
-    confirmations: 'users/confirmations'
-
+    registrations: 'users/registrations'
   }
-  
+
   root "users#index"
-  # root 'pages#blog'
 
   resources :users, only: [:index, :show] do
     resources :posts, only: [:index, :show, :new, :create]
   end
 
   resources :posts do
-    resources :comments, only: [:new, :create]
+    resources :comments, only: [:create, :destroy]
     resources :likes, only: [:create]
   end
 

@@ -234,3 +234,127 @@ a {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+/* In your application's CSS file */
+
+/* In your application's CSS file */
+
+/* Form container */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh; /* Adjust the height as needed */
+  margin-top: 10vh; /* Space from the top */
+  margin-bottom: 10vh; /* Space from the bottom */
+}
+
+/* Form elements */
+.form-container .field {
+  margin-bottom: 1.5rem; /* Increased spacing between fields */
+  text-align: center; /* Center the content within each field */
+}
+
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"] {
+  width: 100%; /* Make sure the input fields span the full width */
+  padding: 0.75rem; /* Increased padding for better spacing */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Remember me checkbox */
+.form-container .remember-me {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the checkbox and label */
+  margin-top: 0.5rem; /* Add some spacing */
+}
+
+.form-container .remember-me-label {
+  margin-left: 0.25rem;
+}
+
+/* Log in button */
+.form-container .login-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 0.5rem 1.5rem; /* Increased padding for a wider button */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.form-container .login-button:hover {
+  background-color: #0056b3;
+}
+
+/* Not a user yet */
+.form-container .reg {
+  margin-top: 1rem;
+  color: #777;
+}
+/* In your application's CSS file */
+
+/* Form container */
+.regcontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh; /* Adjust the height as needed */
+  margin-top: 10vh; /* Space from the top */
+  margin-bottom: 10vh; /* Space from the bottom */
+}
+
+/* Form elements */
+.regcontainer .field {
+  margin-bottom: 1.5rem; /* Increased spacing between fields */
+  text-align: center; /* Center the content within each field */
+}
+
+.regcontainer input[type="text"],
+.regcontainer input[type="email"],
+.regcontainer input[type="password"],
+.regcontainer textarea,
+.regcontainer input[type="number"] {
+  width: 100%; /* Make sure the input fields span the full width */
+  padding: 0.75rem; /* Increased padding for better spacing */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Remember me checkbox */
+.regcontainer .remember-me {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the checkbox and label */
+  margin-top: 0.5rem; /* Add some spacing */
+}
+
+.regcontainer .remember-me-label {
+  margin-left: 0.25rem;
+}
+
+/* Sign up button */
+.regcontainer .signup-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 0.5rem 1.5rem; /* Increased padding for a wider button */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.regcontainer .signup-button:hover {
+  background-color: #0056b3;
+}
+
+/* Already have an account */
+.regcontainer .reg {
+  margin-top: 1rem;
+  color: #777;
+}

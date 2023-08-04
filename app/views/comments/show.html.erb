@@ -1,0 +1,10 @@
+<div class="comment-list">
+  <!-- Loop through comments and display each comment -->
+  <% @comments.each do |comment| %>
+    <p><%= comment.user.name %> : <%= comment.text %></p>
+    <!-- Check if the user is authorized to delete the comment -->
+    <% if can? :destroy, post %>
+  <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure you want to delete this post?' } %>
+<% end %>
+  <% end %>
+</div>
