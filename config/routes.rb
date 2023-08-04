@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
+  # Devise authentication routes
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
 
+  # Root route
   root "users#index"
 
+  # Regular application views
   resources :users, only: [:index, :show] do
     resources :posts, only: [:index, :show, :new, :create]
   end
@@ -15,8 +18,20 @@ Rails.application.routes.draw do
     resources :likes, only: [:create]
   end
 
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # API endpoints
+  namespace :api do
+    namespace :v1 do
+      resources :users, only: [:create, :index, :show] do
+        member do
+          get 'posts', to: 'users#posts'
+          get 'comments', to: 'users#comments'
+          post 'add_comment', to: 'users#add_comment'
+        end
+      end
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+      resources :posts, only: [] do
+        resources :comments, only: [:index, :create] # Nested comments under posts for API
+      end
+    end
+  end
 end
