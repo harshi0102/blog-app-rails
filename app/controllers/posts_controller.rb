@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  load_and_authorize_resource
+
   def index
     @user = User.find(params[:user_id])
     @posts = @user.posts.includes(:comments)
@@ -6,6 +8,7 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    authorize! :read, @post
   end
 
   def new
@@ -14,7 +17,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
-    @post.author_id = current_user.id
+    @post.author = current_user
     @post.comments_counter = 0
     @post.likes_counter = 0
 
@@ -24,6 +27,13 @@ class PostsController < ApplicationController
     else
       render :new
     end
+  end
+
+  def destroy
+    @post = Post.find(params[:id])
+    authorize! :destroy, @post # Check authorization using CanCanCan
+    @post.destroy
+    redirect_to root_path, notice: 'Post was successfully deleted.'
   end
 
   private
