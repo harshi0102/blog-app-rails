@@ -1,16 +1,19 @@
 require 'rails_helper'
 
-RSpec.describe Comment, type: :model do
-  let(:user) { User.create(name: 'John Doe', posts_counter: 0) }
-  let(:post) { Post.create(author_id: user.id, title: 'Sample Post', likes_counter: 0, comments_counter: 0) }
-  let(:comment) { Comment.new(post_id: post.id, user_id: user.id, text: 'Sample Comment') }
+describe Comment, type: :model do
+  describe 'valdations' do
+    @user = User.create(name: 'Tom', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', bio: 'Teacher from Mexico.')
+    @post = Post.create(author: @user, title: 'Hello', text: 'This is my first post')
 
-  describe '#update_post_comments_counter' do
-    it 'updates the post comments_counter attribute' do
-      comment.save
-      post.reload
-      update = post.comments_counter
-      expect(update).to eq(1)
+    subject do
+      Comment.new(author: @user, text: 'Some comment', post: @post)
+    end
+
+    before { subject.save }
+
+    it 'should have a valid text' do
+      subject.text = nil
+      expect(subject).to_not be_valid
     end
   end
 end

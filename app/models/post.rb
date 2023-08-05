@@ -1,19 +1,30 @@
 class Post < ApplicationRecord
-  belongs_to :author, class_name: 'User', counter_cache: :posts_counter
-  has_many :comments, class_name: 'Comment', foreign_key: :post_id
-  has_many :likes
-  after_create :update_user_posts_counter
-  after_destroy :update_user_posts_counter
+  belongs_to :author, class_name: 'User'
+  has_many :likes, dependent: :destroy
+  has_many :comments, dependent: :destroy
+
+  after_initialize :set_default
 
   validates :title, presence: true, length: { maximum: 250 }
-  validates :comments_counter, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :likes_counter, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :comments_counter, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validates :likes_counter, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
-  def update_user_posts_counter
-    author.update(posts_counter: author.posts.count)
+  after_create :increment_user_post_count
+
+  # Increment user posts count
+  def increment_user_post_count
+    author.increment!(:posts_counter)
   end
 
+  # Return user most recent comments
   def recent_comments
-    comments.last(5)
+    comments.order(created_at: :desc).limit(5)
   end
+
+  def set_default
+    self.likes_counter = 0 if likes_counter.nil?
+    self.comments_counter = 0 if comments_counter.nil?
+  end
+
+  private :increment_user_post_count
 end
