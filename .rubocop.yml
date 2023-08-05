@@ -27,6 +27,10 @@ Metrics/ClassLength:
 Metrics/BlockLength:
   AllowedMethods: ['describe']
   Max: 30
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/integration/post_show_spec.rb'
+    - 'spec/integration/user_show_spec.rb'
 
 Style/Documentation:
   Enabled: false
