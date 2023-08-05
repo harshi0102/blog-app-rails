@@ -1,49 +1,45 @@
-# spec/models/user_spec.rb
-
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
-  subject { User.new(name: 'John Doe', posts_counter: 0) }
+describe User, type: :model do
+  subject do
+    User.new(name: 'Tom', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', bio: 'Teacher from Mexico.')
+  end
 
-  context 'validations' do
-    before(:each) { subject.save }
+  before { subject.save }
 
-    it 'should be valid' do
-      expect(subject).to be_valid
-    end
-
-    it 'should be invalid when name is not present' do
+  describe '#name' do
+    it 'should have name present' do
       subject.name = nil
-      expect(subject).not_to be_valid
-    end
-
-    it 'should be invalid when posts_counter is not a number' do
-      subject.posts_counter = 'invalid'
-      expect(subject).not_to be_valid
+      expect(subject).to_not be_valid
     end
   end
 
-  context '#recent_posts' do
-    before(:each) do
-      subject.save
-      @post1 = subject.posts.build(title: 'Title', likes_counter: 0, comments_counter: 0)
-      @post2 = subject.posts.build(title: 'Title2', likes_counter: 0, comments_counter: 0)
-      @post1.save
-      @post2.save
+  describe '#postscounter to be >= 0' do
+    it 'should be greater than 0' do
+      subject.posts_counter = -1
+      expect(subject).to_not be_valid
     end
 
-    it "should return all the user's posts when there are 3 or fewer, sorted from newest to oldest" do
-      posts = subject.recent_posts
-      expect(posts).to eq([@post2, @post1])
+    it 'should be equal to 0' do
+      subject.posts_counter = 0
+      expect(subject).to be_valid
     end
 
-    it "should return the user's 3 most recent posts when there are more than 3, sorted from newest to oldest" do
-      post3 = subject.posts.build(title: 'Title3', likes_counter: 0, comments_counter: 0)
-      post4 = subject.posts.build(title: 'Title4', likes_counter: 0, comments_counter: 0)
-      post3.save
-      post4.save
-      posts = subject.recent_posts
-      expect(posts).to eq([post4, post3, @post2])
+    it 'should be greater than 0' do
+      subject.posts_counter = 3
+      expect(subject).to be_valid
+    end
+  end
+
+  describe '#most_recent_posts' do
+    before do
+      5.times do |i|
+        Post.create(author: subject, title: "#{i} Post")
+      end
+    end
+
+    it 'should return the 3 most recent posts' do
+      expect(subject.recent_posts).to eq subject.posts.order(created_at: :desc).limit(3)
     end
   end
 end

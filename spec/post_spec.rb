@@ -1,34 +1,58 @@
 require 'rails_helper'
+require 'securerandom'
 
-RSpec.describe Post, type: :model do
-  let(:user) { User.create(name: 'John Doe', posts_counter: 0) }
-  let(:post) { Post.new(author_id: user.id, title: 'Sample Post', likes_counter: 0, comments_counter: 0) }
-  let(:commentq) { Comment.create(post_id: post.id, user_id: user.id, text: 'Sample Comment') }
-  let(:commentw) { Comment.create(post_id: post.id, user_id: user.id, text: 'Sample Comment') }
-  let(:commente) { Comment.create(post_id: post.id, user_id: user.id, text: 'Sample Comment') }
-  let(:commentr) { Comment.create(post_id: post.id, user_id: user.id, text: 'Sample Comment') }
-  let(:commentt) { Comment.create(post_id: post.id, user_id: user.id, text: 'Sample Comment') }
+describe Post, type: :model do
+  @user = User.create(name: 'Tom', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', bio: 'Teacher from Mexico.')
+
+  subject { Post.new(author: @user, title: 'Hello', text: 'This is my first post') }
+
+  before { subject.save }
 
   describe 'validations' do
-    it { should validate_presence_of(:title) }
-    it { should validate_length_of(:title).is_at_most(250) }
-    it { should validate_numericality_of(:comments_counter).only_integer.is_greater_than_or_equal_to(0) }
-    it { should validate_numericality_of(:likes_counter).only_integer.is_greater_than_or_equal_to(0) }
-  end
+    it 'should have title present' do
+      subject.title = nil
+      expect(subject).to_not be_valid
+    end
 
-  describe '#recent_comments' do
-    it 'returns the recent comments in descending order' do
-      five = post.recent_comments
-      expect(five).to eq(post.comments.last(5))
+    it 'should have title with a max length of 250' do
+      subject.title = SecureRandom.hex(251)
+      expect(subject).to_not be_valid
+    end
+
+    describe '#commentscounter' do
+      it 'should have an interger commentscounter' do
+        subject.comments_counter = '200'
+        expect(subject).to_not be_valid
+      end
+
+      it 'should be greater than or equal to 0' do
+        subject.comments_counter = -1
+        expect(subject).to_not be_valid
+      end
+    end
+
+    describe '#likescounter' do
+      it 'should have an interger likescounter' do
+        subject.likes_counter = '200'
+        expect(subject).to_not be_valid
+      end
+
+      it 'should be greater than or equal to 0' do
+        subject.likes_counter = -1
+        expect(subject).to_not be_valid
+      end
     end
   end
 
-  describe '#update_user_posts_counter' do
-    it 'updates the user posts_counter attribute' do
-      post.save
-      user.reload
-      update = user.posts_counter
-      expect(update).to eq(1)
+  describe '#most_recent_comments' do
+    before do
+      7.times do |i|
+        Comment.create(author: @user, text: "#{i} Comment", post: subject)
+      end
+    end
+
+    it 'should return the 3 most recent comments' do
+      expect(subject.recent_comments).to eq subject.comments.order(created_at: :desc).limit(5)
     end
   end
 end

@@ -1,44 +1,29 @@
-<section class="post-section">
-  <div class="post-details2">
-    <div class='c-l2'>
-      <h2>Post #<%= @post.id %> by <%= @post.author.name %></h2>
-      <div class='CLikes'>
-        <p>Comments: <%= @post.comments.count %></p>
-        <%= link_to post_likes_path(@post.author_id, @post.id) do %>
-          <p><%= "Likes: #{@post.likes_counter}" %></p>
-        <% end %>
-
-        <%= form_with url: post_likes_path(@post.author_id, @post.id) do |form| %>
-          <a><%= form.submit 'Like' %></a>
-        <% end %>
-      </div>
+<div class="post-container">
+  <div class="post-details border">
+    <div class="post-header">
+      <h3>
+        Post #<%= @post.title %> by <%= @user.name %>
+      </h3>
+      <%= button_to 'Like Post', user_post_likes_path(@user, @post), method: :post, class: 'like_post_btn'%>
+      <% if can? :destroy, @post %>
+        <%= button_to 'Delete Post', user_post_path(@user, @post), method: :delete, class: 'like_post_btn'%>
+      <% end %>
+      <p>
+        Comments: <%= @post.comments_counter %> , Likes: <%= @post.likes_counter %>
+      </p>
     </div>
-    <div class='text'>
-      <p><%= @post.text %></p>
-    </div>
+    <p>
+      <%= @post.text %>
+    </p>
   </div>
 
-  <div class="comment-list">
-    <% @comments = Post.find(@post.id).comments %>
-    <% @comments.each do |comment| %>
-      <p><%= comment.user.name %>: <%= comment.text %></p>
+  <div class="post-comments border">
+    <% @post.comments.each do |comment| %>
+      <p><%= comment.author.name %>: <%= comment.text %></p>
+      <% if can? :destroy, comment %>
+          <%= button_to 'Delete Comment', user_post_comment_path(@user, @post, comment), method: :delete, class: 'like_post_btn'%>
+      <% end %>
     <% end %>
   </div>
-
-  <div class="comment-form">
-    <%= form_with(model: @comment, url: post_comments_path(@post)) do |form| %>
-      <div class="input">
-        <%= form.label :text, 'Comment' %>
-        <%= form.text_area :text, placeholder: 'Enter your comment...', required: true %>
-      </div>
-      <%= form.submit 'Create Comment', class: 'submit-button' %>
-    <% end %>
-  </div>
-
-  <% if can? :destroy, @post %>
-  <%= link_to 'Delete', user_post_path(user_id: @post.author_id, id: @post.id), method: :delete, data: { confirm: 'Are you sure you want to delete this post?' } %>
-  <% else %>
-    <!-- Content for unauthorized users -->
-    <p>You are not authorized to delete this post.</p>
-  <% end %>
-</section>
+</div>
+<%= render 'comments/form' %>

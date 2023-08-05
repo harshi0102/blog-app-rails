@@ -1,31 +1,37 @@
 class CommentsController < ApplicationController
   load_and_authorize_resource
 
-  def new
-    @comment = Comment.new
-    @post = Post.find(params[:post_id])
-  end
-
   def create
-    @post = Post.find(params[:post_id])
-    @comment = Comment.new(
-      user_id: current_user.id,
-      post_id: params[:post_id],
-      text: params[:text]
-    )
-    return unless @comment.save
+    @comment = current_user.comments.new(comment_params)
+    @comment.post_id = params[:post_id]
 
-    redirect_to user_post_path(@comment.user.id, @post.id)
+    respond_to do |format|
+      if @comment.save
+        format.html do
+          redirect_to user_post_path(@comment.author, @comment.post), notice: 'Successfully added a comment'
+        end
+      else
+        @user = Post.find(params[:user_id])
+        @post = Post.find(params[:post_id])
+        flash[:error] = @comment.errors.full_messages
+        format.html { redirect_to user_post_path(@user, @post) }
+      end
+    end
   end
 
   def destroy
-    @post = Post.find(params[:post_id])
-    @comment = @post.comments.find(params[:id])
-    authorize! :destroy, @comment # Check authorization using CanCanCan
-    @comment.destroy
+    post = Post.find(params[:post_id])
+    comment = post.comments.find(params[:id])
+    comment.destroy
+    post.decrement!(:comments_counter)
     respond_to do |format|
-      format.html { redirect_to post_path(@post), notice: 'Comment was successfully deleted.' }
-      format.js # Renders comments/destroy.js.erb
+      format.html { redirect_to user_post_path(post.author, post), notice: 'Comment was successfully destroyed' }
     end
+  end
+
+  private
+
+  def comment_params
+    params.require(:comment).permit(:text)
   end
 end

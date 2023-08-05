@@ -7,10 +7,16 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag %>
+    <%= javascript_importmap_tags %>
   </head>
 
   <body>
+    <div class="notice">
+    <p><%= notice%></p>
+    </div>
+     <div class="alert">
+    <p><%= alert%></p>
+    </div>
     <%= yield %>
   </body>
 </html>
